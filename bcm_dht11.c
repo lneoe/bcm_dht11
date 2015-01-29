@@ -6,7 +6,7 @@
 #define MAXTIME 100
 
 
-int readDHT(int type, int pin, float *temp_p, float *hum_p) {
+int readDHT(int type, int pin, float *hum_p, float *temp_p) {
     int counter = 0;
     int lastState = HIGH;
     int i, j = 0;
