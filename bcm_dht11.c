@@ -80,7 +80,7 @@ int readDHT(int type, int pin, float *hum_p, float *temp_p) {
 
 int main(void){
     int rtn;
-    float temp_p, hum_p = .0;
+    float hum_p, temp_p;
     rtn = readDHT(11, 4, &hum_p, &temp_p);
     if (rtn) {
         printf("RH: %.2f \tTEMP: %.2f\n", hum_p, temp_p);
