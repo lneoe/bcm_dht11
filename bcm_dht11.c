@@ -25,9 +25,9 @@ int readDHT(int type, int pin, float *hum_p, float *temp_p) {
 
     bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
 
-    while(bcm2835_gpio_lev(pin) == 1) {
-        delayMicroseconds(1);
-    }
+    // while(bcm2835_gpio_lev(pin) == 1) {
+    //     delayMicroseconds(1);
+    // }
 
     for (i = 0; i < MAXTIME; i++) {
         counter = 0;
@@ -78,11 +78,22 @@ int readDHT(int type, int pin, float *hum_p, float *temp_p) {
 }
 
 
-int main(void){
-    int rtn;
+int main(void) {
+    int rtn = 0;
+    int attempt = 5;
     float hum_p, temp_p;
-    rtn = readDHT(11, 4, &hum_p, &temp_p);
-    if (rtn) {
-        printf("RH: %.2f \tTEMP: %.2f\n", hum_p, temp_p);
+
+    while (!rtn && attempt) {
+        rtn = readDHT(11, 4, &hum_p, &temp_p);
+        attempt--;
     }
+
+    if (!rtn && !attempt) {
+        printf("Sensor didnt return valided data, try again?\n");
+        return 0;
+    } else {
+        printf("RH: %.2f, TEMP: %.2f\n", hum_p, temp_p);
+        return 1;
+    }
+
 }
